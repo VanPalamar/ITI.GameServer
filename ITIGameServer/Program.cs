@@ -16,20 +16,22 @@ namespace ITIGameServer
         static void Main(string[] args)
         {
             //create a new server
-            var server = new ServerRunner();
-            server.Start();
-
-            //create a new client
-
-            var random = new Random();
-            for (var i = 0; i < 1; i++)
+            Task.Factory.StartNew(() =>
             {
-                var client = new ClientRunner("127.0.0.1", 32123);
-                client.Start();
-                client.JoinServer("valbg" + random.NextDouble().ToString());
-            }
-            //client.Stop();
+                var server = new ServerRunner();
 
+                server.Start();
+            });
+
+            Task.Factory.StartNew(() =>
+            {
+                for (var i = 0; i < 5; i++)
+                {
+                    var client = new ClientRunner("127.0.0.1", 32123);
+                    client.Start();
+                    client.JoinServer($"player{i}");
+                }
+            });
             Console.ReadKey();
         }
     }

@@ -24,25 +24,16 @@ namespace ITIGameServer.Server
                 throw new ArgumentOutOfRangeException("Capacity must be grater than 0");
             }
             _players = new ConcurrentDictionary<string, Player>();
-            _connection = new UdpServer(endpoint ?? new IPEndPoint(IPAddress.Any, 3233));
+            _connection = new UdpServer(endpoint ?? new IPEndPoint(IPAddress.Any, 32123));
         }
 
-        public void Start()
+        public async void Start()
         {
             _isRunning = true;
-            Task.Factory.StartNew(async () => {
-                while (_isRunning)
-                {
-                    try
-                    {
-                        await Loop();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-            });
+            while (_isRunning)
+            {
+                await Loop();
+            }
         }
 
         public void Stop()

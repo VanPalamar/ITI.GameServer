@@ -36,15 +36,13 @@ namespace ITIGameServer.Client
             }
         }
 
-        public void Start()
+        public async void Start()
         {
             _isRunning = true;
-            Task.Factory.StartNew(async () => {
-                while (_isRunning)
-                {
-                    await Loop();
-                }
-            });
+            while (_isRunning)
+            {
+                await Loop();
+            }
         }
 
         public void Stop()
