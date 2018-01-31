@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITIGameServer", "ITIGameServer\ITIGameServer.csproj", "{FAFC59A4-300E-4705-B47E-D0F42DB6DA24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITIGameServer.Tests", "ITIGameServer.Tests\ITIGameServer.Tests.csproj", "{B79DAF65-52C4-4A46-98D1-E81A1836A0E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{FAFC59A4-300E-4705-B47E-D0F42DB6DA24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAFC59A4-300E-4705-B47E-D0F42DB6DA24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAFC59A4-300E-4705-B47E-D0F42DB6DA24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B79DAF65-52C4-4A46-98D1-E81A1836A0E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B79DAF65-52C4-4A46-98D1-E81A1836A0E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B79DAF65-52C4-4A46-98D1-E81A1836A0E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B79DAF65-52C4-4A46-98D1-E81A1836A0E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {66653658-A257-473D-B67A-1F3445B160FE}
 	EndGlobalSection
 EndGlobal
