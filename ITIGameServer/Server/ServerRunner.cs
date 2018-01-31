@@ -69,11 +69,6 @@ namespace ITIGameServer.Server
             DispatchMessage(received);
         }
 
-        public void MovePlayer(MoveInfo info, Received from)
-        {
-            throw new NotImplementedException();
-        }
-
         public void TryJoinPlayer(LoginInfo info, Received from)
         {
             var isExisting = _players.Any(x => x.Pseudo == info.Pseudo);
@@ -92,6 +87,16 @@ namespace ITIGameServer.Server
         }
 
         public void LeavePlayer(LoginInfo info, Received from)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Player GetPlayer(string pseudo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MovePlayer(MoveInfo info, Received from)
         {
             throw new NotImplementedException();
         }
