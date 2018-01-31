@@ -13,6 +13,7 @@ namespace ITIGameServer.Client
     {
         private bool _isRunning = false;
         private readonly UdpUser _connection;
+        public bool Connected { get; private set; }
 
         public ClientRunner(string hostname, int port)
         {
@@ -30,6 +31,7 @@ namespace ITIGameServer.Client
             {
                 case EMessageType.ConnectConfirm:
                     Console.WriteLine("[CLIENT] - Connected to server");
+                    Connected = true;
                     break;
                 default:
                     throw new InvalidOperationException("Unknown message type received");

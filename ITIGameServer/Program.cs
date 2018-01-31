@@ -25,7 +25,7 @@ namespace ITIGameServer
 
             Task.Factory.StartNew(() =>
             {
-                for (var i = 0; i < 5; i++)
+                for (var i = 0; i < 10; i++)
                 {
                     var client = new ClientRunner("127.0.0.1", 32123);
                     client.Start();

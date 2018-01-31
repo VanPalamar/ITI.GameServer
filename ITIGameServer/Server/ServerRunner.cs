@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace ITIGameServer.Server
     {
         private bool _isRunning;
         private readonly UdpServer _connection;
-        private ConcurrentDictionary<string, Player> _players;
+        private List<Player> _players;
 
         public ServerRunner(IPEndPoint endpoint = null, int capacity = 10)
         {
@@ -23,7 +24,7 @@ namespace ITIGameServer.Server
             {
                 throw new ArgumentOutOfRangeException("Capacity must be grater than 0");
             }
-            _players = new ConcurrentDictionary<string, Player>();
+            _players = new List<Player>(capacity);
             _connection = new UdpServer(endpoint ?? new IPEndPoint(IPAddress.Any, 32123));
         }
 
@@ -75,13 +76,17 @@ namespace ITIGameServer.Server
 
         public void TryJoinPlayer(LoginInfo info, Received from)
         {
-            var isExisting = _players.TryGetValue(info.Pseudo, out Player otherPlayer);
+            var isExisting = _players.Any(x => x.Pseudo == info.Pseudo);
             if (isExisting)
             {
                 throw new Exception("This player is already connected to the server");
             }
+            if (_players.Count == _players.Capacity)
+            {
+                throw new Exception("Maximum player count reached");
+            }
             var player = new Player() {Pseudo = info.Pseudo};
-            _players.AddOrUpdate(info.Pseudo, player, (key, v) => player);
+            _players.Add(player);
             _connection.ReplyAsync(new Message(EMessageType.ConnectConfirm), from.Sender);
             Console.WriteLine($"[SERVER] - Player {player.Pseudo} joined [{player.X}, {player.Y}]");
         }
