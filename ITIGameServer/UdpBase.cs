@@ -27,5 +27,9 @@ namespace ITIGameServer
                 Sender = result.RemoteEndPoint
             };
         }
+
+        public void Close() {
+            Client.Dispose();
+        }
     }
 }

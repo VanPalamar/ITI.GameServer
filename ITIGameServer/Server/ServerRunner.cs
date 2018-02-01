@@ -41,6 +41,7 @@ namespace ITIGameServer.Server
         public void Stop()
         {
             _isRunning = false;
+            _connection.Close();
         }
 
         public void DispatchMessage(Received message)

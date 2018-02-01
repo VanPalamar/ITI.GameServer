@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using FluentAssertions;
 using ITI.GameServer.Messages;
 using ITI.GameServer.Models;
@@ -13,12 +14,8 @@ namespace ITIGameServer.Tests
     {
         [TestMethod]
         public void TestRunServer() {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => {
-                
-            });
-            var server = new ServerRunner(null, -2);
-
-            server.Invoking(o => o.Start()).ShouldThrow<ArgumentOutOfRangeException>();
+            Action a = () => new ServerRunner(null, -2);
+            a.ShouldThrow<ArgumentOutOfRangeException>();
         }
         [TestMethod]
         public void TestJoinServer()
@@ -29,6 +26,7 @@ namespace ITIGameServer.Tests
             client.Start();
             client.JoinServer("player");
             server.Invoking(o => o.GetPlayer("player")).Should().NotBeNull();
+            server.Stop();
         }
 
         [TestMethod]
@@ -38,8 +36,11 @@ namespace ITIGameServer.Tests
             var client = new ClientRunner("127.0.0.1", 32123);
             client.Start();
             client.JoinServer("player");
+            Thread.Sleep(1000);
             var player = server.GetPlayer("player");
+            Thread.Sleep(1000);
             server.Invoking(o => o.GetPlayerPosition(player)).ShouldNotThrow<NullReferenceException>();
+            server.Stop();
         }
 
         [TestMethod]
@@ -50,8 +51,10 @@ namespace ITIGameServer.Tests
             var client = new ClientRunner("127.0.0.1", 32123);
             client.Start();
             client.JoinServer("player");
+            Thread.Sleep(1000);
             var player = server.GetPlayer("player");
             server.LeavePlayer(server.GetPlayerInfo(player.Pseudo)).Should().Be(true);
+            server.Stop();
         }
 
 
