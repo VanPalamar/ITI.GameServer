@@ -10,6 +10,6 @@ namespace ITIGameServer.Server
     {
         void MovePlayer(MoveInfo info, Received from);
         void TryJoinPlayer(LoginInfo info, Received from);
-        void LeavePlayer(LoginInfo info, Received from);
+        bool LeavePlayer(LoginInfo info);
     }
 }

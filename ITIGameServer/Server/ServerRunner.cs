@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -52,7 +53,7 @@ namespace ITIGameServer.Server
                     break;
                 case EMessageType.Leave:
                     LoginInfo leaveInfo = Serializer.Deserialize<LoginInfo>(message.Message.Arguments);
-                    LeavePlayer(leaveInfo, message);
+                    LeavePlayer(leaveInfo);
                     break;
                 case EMessageType.MovePlayer:
                     MoveInfo moveInfo = Serializer.Deserialize<MoveInfo>(message.Message.Arguments);
@@ -86,23 +87,56 @@ namespace ITIGameServer.Server
             Console.WriteLine($"[SERVER] - Player {player.Pseudo} joined [{player.X}, {player.Y}]");
         }
 
-        public void LeavePlayer(LoginInfo info, Received from)
-        {
-            throw new NotImplementedException();
+        //public void LeavePlayer(LoginInfo info, Received from)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Player GetPlayer(string pseudo)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public void MovePlayer(MoveInfo info, Received from)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public (int X, int Y) GetPlayerPosition(Player player)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        public bool LeavePlayer(LoginInfo info) {
+            var player = _players.SingleOrDefault(o => o.Pseudo == info.Pseudo);
+            return player!= null && _players.Remove(player);
         }
 
-        public Player GetPlayer(string pseudo)
-        {
-            throw new NotImplementedException();
+        public Player GetPlayer(string pseudo) {
+            return _players.Find(o => o.Pseudo == pseudo);
         }
-
-        public void MovePlayer(MoveInfo info, Received from)
+        public LoginInfo GetPlayerInfo(string pseudo)
         {
-            throw new NotImplementedException();
+            var p = _players.Find(o => o.Pseudo == pseudo);
+            return new LoginInfo {
+                Pseudo = p.Pseudo
+            };
         }
-        public (int X, int Y) GetPlayerPosition(Player player)
+        public void MovePlayer(MoveInfo info, Received from) {
+            var player = GetPlayer(info.Pseudo);
+            player.X = info.X;
+            player.Y = info.Y;
+        }
+        public MoveInfo GetPlayerPosition(Player p)
         {
-            throw new NotImplementedException();
+            var player = GetPlayer(p.Pseudo);
+            if (player != null) {
+                return new MoveInfo
+                {
+                    Pseudo = player.Pseudo,
+                    X = player.X,
+                    Y = player.Y
+                };
+            }
+            throw new NullReferenceException("the player does not exist");
         }
     }
 }
