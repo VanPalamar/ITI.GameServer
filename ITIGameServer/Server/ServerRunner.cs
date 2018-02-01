@@ -100,5 +100,9 @@ namespace ITIGameServer.Server
         {
             throw new NotImplementedException();
         }
+        public (int X, int Y) GetPlayerPosition(Player player)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
