@@ -12,34 +12,16 @@ namespace ITIGameServer.Tests
     [TestClass]
     public class Tests
     {
+        
         [TestMethod]
-        public void TestRunServer() {
-            Action a = () => new ServerRunner(null, -2);
-            a.ShouldThrow<ArgumentOutOfRangeException>();
-        }
-        [TestMethod]
-        public void TestJoinServer()
+        public void TestGetPlayerShouldNotBeNull()
         {
             var server = new ServerRunner();
             server.Start();
             var client = new ClientRunner("127.0.0.1", 32123);
             client.Start();
             client.JoinServer("player");
-            server.Invoking(o => o.GetPlayer("player")).Should().NotBeNull();
-            server.Stop();
-        }
-
-        [TestMethod]
-        public void TestGetPlayerPosition() {
-            var server = new ServerRunner();
-            server.Start();
-            var client = new ClientRunner("127.0.0.1", 32123);
-            client.Start();
-            client.JoinServer("player");
-            Thread.Sleep(1000);
-            var player = server.GetPlayer("player");
-            Thread.Sleep(1000);
-            server.Invoking(o => o.GetPlayerPosition(player)).ShouldNotThrow<NullReferenceException>();
+            server.GetPlayer("player").Should().NotBeNull();
             server.Stop();
         }
 
@@ -57,8 +39,22 @@ namespace ITIGameServer.Tests
             server.Stop();
         }
 
+        [TestMethod]
+        public void TestGetPlayerPosition() {
+            var server = new ServerRunner();
+            server.Start();
+            var client = new ClientRunner("127.0.0.1", 32123);
+            client.Start();
+            client.JoinServer("player");
+            Thread.Sleep(1000);
+            var player = server.GetPlayer("player");
+            Thread.Sleep(1000);
+            server.Invoking(o => o.GetPlayerPosition(player)).ShouldNotThrow<NullReferenceException>();
+            server.Stop();
+        }
 
-        #region Helper
+
+        #region Bonus Helper
         /*
          * helper: If you dont like duplicationg code. Use this
          */

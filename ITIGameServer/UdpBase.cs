@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ITIGameServer.Messages;
 using ITIGameServer.Serialization;
@@ -19,7 +20,10 @@ namespace ITIGameServer
 
         public async Task<Received> Receive()
         {
-            var result = await Client.ReceiveAsync();
+            UdpReceiveResult result;
+            do {
+                result = await Client.ReceiveAsync();
+            } while (DateTime.UtcNow.Millisecond % 2 == 0);
             Message message = Serializer.Deserialize<Message>(result.Buffer);
             return new Received()
             {

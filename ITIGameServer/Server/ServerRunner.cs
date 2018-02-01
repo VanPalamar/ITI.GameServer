@@ -21,10 +21,6 @@ namespace ITIGameServer.Server
 
         public ServerRunner(IPEndPoint endpoint = null, int capacity = 10)
         {
-            if (capacity <= 0)
-            {
-                throw new ArgumentOutOfRangeException("Capacity must be grater than 0");
-            }
             _players = new List<Player>(capacity);
             _connection = new UdpServer(endpoint ?? new IPEndPoint(IPAddress.Any, 32123));
         }
@@ -88,56 +84,25 @@ namespace ITIGameServer.Server
             Console.WriteLine($"[SERVER] - Player {player.Pseudo} joined [{player.X}, {player.Y}]");
         }
 
-        //public void LeavePlayer(LoginInfo info, Received from)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void MovePlayer(MoveInfo info, Received @from) {
+            throw new NotImplementedException();
+        }
 
-        //public Player GetPlayer(string pseudo)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void MovePlayer(MoveInfo info, Received from)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public (int X, int Y) GetPlayerPosition(Player player)
-        //{
-        //    throw new NotImplementedException();
-        //}
         public bool LeavePlayer(LoginInfo info) {
-            var player = _players.SingleOrDefault(o => o.Pseudo == info.Pseudo);
-            return player!= null && _players.Remove(player);
+            throw new NotImplementedException();
         }
 
         public Player GetPlayer(string pseudo) {
-            return _players.Find(o => o.Pseudo == pseudo);
+            throw new NotImplementedException();
         }
-        public LoginInfo GetPlayerInfo(string pseudo)
-        {
-            var p = _players.Find(o => o.Pseudo == pseudo);
-            return new LoginInfo {
-                Pseudo = p.Pseudo
-            };
+
+        public MoveInfo GetPlayerPosition(Player p) {
+            throw new NotImplementedException();
         }
-        public void MovePlayer(MoveInfo info, Received from) {
-            var player = GetPlayer(info.Pseudo);
-            player.X = info.X;
-            player.Y = info.Y;
+
+        public LoginInfo GetPlayerInfo(string pseudo) {
+            throw new NotImplementedException();
         }
-        public MoveInfo GetPlayerPosition(Player p)
-        {
-            var player = GetPlayer(p.Pseudo);
-            if (player != null) {
-                return new MoveInfo
-                {
-                    Pseudo = player.Pseudo,
-                    X = player.X,
-                    Y = player.Y
-                };
-            }
-            throw new NullReferenceException("the player does not exist");
-        }
+
     }
 }
